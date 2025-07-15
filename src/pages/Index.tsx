@@ -1,4 +1,3 @@
-
 import React, { useEffect, useCallback } from 'react';
 import LocationSearch from '@/components/LocationSearch';
 import AQIDisplay from '@/components/AQIDisplay';
@@ -28,10 +27,13 @@ const Index = () => {
     handleCurrentLocation,
   } = useLocation();
 
-  const onLocationSelect = useCallback((location: any) => {
-    const newLocation = handleLocationSelect(location);
-    fetchAllData(parseFloat(newLocation.lat), parseFloat(newLocation.lon));
-  }, [handleLocationSelect, fetchAllData]);
+  const onLocationSelect = useCallback(
+    (location: any) => {
+      const newLocation = handleLocationSelect(location);
+      fetchAllData(parseFloat(newLocation.lat), parseFloat(newLocation.lon));
+    },
+    [handleLocationSelect, fetchAllData]
+  );
 
   const onCurrentLocation = useCallback(async () => {
     try {
@@ -68,7 +70,7 @@ const Index = () => {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Left Column - Location Search and Current Location */}
           <div className="lg:col-span-1 space-y-6">
-            <div className="bg-white/60 backdrop-blur-xl rounded-3xl p-6 shadow-xl border border-white/20">
+            <div className="bg-white/90 backdrop-blur-md rounded-2xl p-6 shadow-md border border-gray-100 relative z-10">
               <LocationSearch
                 onLocationSelect={onLocationSelect}
                 onCurrentLocation={onCurrentLocation}
@@ -86,14 +88,16 @@ const Index = () => {
             )}
 
             {!isLoadingData && !weatherData && !airQualityData && !currentLocation && (
-              <WelcomeState />
+              <div className="relative z-0">
+                <WelcomeState />
+              </div>
             )}
           </div>
 
           {/* Right Column - Weather and Air Quality Data */}
-          <div className="lg:col-span-2">
+          <div className="lg:col-span-2 relative z-0">
             {isLoadingData && <LoadingState />}
-            
+
             {!isLoadingData && weatherData && airQualityData && (
               <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
                 <div className="xl:col-span-1">
